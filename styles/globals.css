@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Sora&display=swap");
+
+@layer base {
+  h1 {
+    @apply font-montserrat;
+  }
+  .btn {
+    @apply w-[278.88px] h-[35.4px] bg-[#101010] text-[#F7F7F7] rounded-lg font-sora text-xs;
+  }
+  .btn-icon {
+    @apply w-[44px] h-[44px] bg-[#101010] rounded-full flex justify-center;
+  }
+  p {
+    @apply font-sora;
+  }
+}
