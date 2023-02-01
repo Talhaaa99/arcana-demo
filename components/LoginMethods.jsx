@@ -1,7 +1,7 @@
 import { ConnectButton, openConnectModal } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
-import { getAuth } from "../lib/getAuth";
 import { CHAIN } from "@arcana/auth";
+import GetAuth from "../lib/GetAuth";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
@@ -12,6 +12,9 @@ import {
   FaDiscord,
   FaLine,
 } from "react-icons/fa";
+import { useRecoilState } from "recoil";
+import { chains } from "../atom/contentAtom";
+import { Dropdown } from "flowbite-react";
 
 const LoginMethods = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -26,14 +29,14 @@ const LoginMethods = () => {
   const [showKey, setShowkey] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [firstModal, setFirstModal] = useState(false);
-  const [secondModal, setSecondModal] = useState(false);
+  const [chain, setChain] = useRecoilState(chains);
 
-  const auth = getAuth();
+  const auth = GetAuth();
 
-  const initialize = async () => {
+  async function initialize() {
     await auth.init();
     setIsInitialized(true);
-  };
+  }
 
   useEffect(() => {
     initialize();
@@ -128,6 +131,8 @@ const LoginMethods = () => {
   const handleEmailLogin = async (e) => {
     setEmailInput(e.target.value);
   };
+
+  const existingChains = Object.entries(CHAIN);
 
   function setHooks() {
     const provider = auth.provider;
@@ -402,7 +407,24 @@ const LoginMethods = () => {
           </footer>
         </div>
       </Modal>
+
+      {/* Initial chain selector */}
+
+      {/* Login Modal opener */}
       <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
+        <div>
+          <Dropdown label="Select chain" autoCapitalize="true">
+            <Dropdown.Header>List of supported chains</Dropdown.Header>
+            {existingChains.map(([key, value]) => {
+              return (
+                <Dropdown.Item key={key} onClick={() => setChain(value)}>
+                  {key}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown>
+        </div>
+        <button onClick={connectWallet}>Arcana PP</button>
         {loggedIn ? (
           <div className="flex space-x-2 btn w-[200px]">
             <Image

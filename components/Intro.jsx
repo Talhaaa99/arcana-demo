@@ -1,3 +1,5 @@
+"use client";
+
 import { Modal } from "@mui/material";
 import { useState } from "react";
 
