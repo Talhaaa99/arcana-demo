@@ -13,3 +13,7 @@ export const chains = atom({
   key: "chain-select",
   default: CHAIN.POLYGON_MAINNET,
 });
+export const walletState = atom({
+  key: "wallet-state",
+  default: true,
+});

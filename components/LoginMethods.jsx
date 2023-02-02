@@ -1,6 +1,6 @@
 import { ConnectButton, openConnectModal } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
-import { CHAIN } from "@arcana/auth";
+import { AuthProvider, CHAIN } from "@arcana/auth";
 import GetAuth from "../lib/GetAuth";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
@@ -13,7 +13,7 @@ import {
   FaLine,
 } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import { chains } from "../atom/contentAtom";
+import { chains, walletState } from "../atom/contentAtom";
 import { Dropdown } from "flowbite-react";
 
 const LoginMethods = () => {
@@ -30,8 +30,19 @@ const LoginMethods = () => {
   const [emailInput, setEmailInput] = useState("");
   const [firstModal, setFirstModal] = useState(false);
   const [chain, setChain] = useRecoilState(chains);
+  const [wallet, setWallet] = useRecoilState(walletState);
 
-  const auth = GetAuth();
+  const appAddress = "bad424ac9d22202f07a742efaa36c865260d28f2";
+
+  const auth = new AuthProvider(`${appAddress}`, {
+    position: "right", // defaults to right
+    theme: "dark", // defaults to dark
+    alwaysVisible: true, // defaults to true which is Full UI mode
+    chainConfig: {
+      chainId: chain,
+      rpcUrl: "https://polygon-rpc.com/",
+    },
+  });
 
   async function initialize() {
     await auth.init();
@@ -100,6 +111,7 @@ const LoginMethods = () => {
 
   const socialLogin = async (socialAuth) => {
     if (isInitialized) {
+      await auth.init();
       const social = await auth.loginWithSocial(socialAuth);
       await auth.isLoggedIn();
       setLoggedIn(true);
@@ -112,6 +124,7 @@ const LoginMethods = () => {
 
   const emailLogin = async (emailAuth) => {
     if (isInitialized) {
+      await auth.init();
       return await auth.loginWithLink(emailAuth);
     }
   };
@@ -413,7 +426,7 @@ const LoginMethods = () => {
       {/* Login Modal opener */}
       <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
         <div>
-          <Dropdown label="Select chain" autoCapitalize="true">
+          <Dropdown label="Select Chain" autoCapitalize="true">
             <Dropdown.Header>List of supported chains</Dropdown.Header>
             {existingChains.map(([key, value]) => {
               return (
@@ -424,9 +437,11 @@ const LoginMethods = () => {
             })}
           </Dropdown>
         </div>
-        <button onClick={connectWallet}>Arcana PP</button>
+        <button onClick={connectWallet} className="btn">
+          Arcana PP
+        </button>
         {loggedIn ? (
-          <div className="flex space-x-2 btn w-[200px]">
+          <div className="flex space-x-2 btn w-36">
             <Image
               src="/arcanaLogo.png"
               alt="/"
@@ -435,12 +450,12 @@ const LoginMethods = () => {
               className="flex object-contain"
               quality="100"
             />
-            <h1>{truncateEthAddress(address)}</h1>
+            <h1 className="self-center">{truncateEthAddress(address)}</h1>
           </div>
         ) : (
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 btn w-36">
             <button
-              className="flex align-middle space-x-2 shadow-xl btn"
+              className="flex align-middle justify-center space-x-2 shadow-xl btn"
               onClick={openFirstModal}
             >
               <Image
@@ -455,6 +470,9 @@ const LoginMethods = () => {
             </button>
           </div>
         )}
+        <button className="btn" onClick={() => setWallet(!wallet)}>
+          Show/Hide wallet
+        </button>
       </div>
     </div>
   );
