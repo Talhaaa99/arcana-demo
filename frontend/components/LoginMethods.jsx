@@ -1,7 +1,7 @@
 import { ConnectButton, openConnectModal } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { AuthProvider, CHAIN } from "@arcana/auth";
-import GetAuth from "../lib/GetAuth";
+import GetAuth from "../frontend/lib/GetAuth";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
@@ -13,8 +13,9 @@ import {
   FaLine,
 } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import { chains, walletState } from "../atom/contentAtom";
+import { initialChains, walletState } from "../atom/contentAtom";
 import { Dropdown } from "flowbite-react";
+import Homepage from "./Homepage";
 
 const LoginMethods = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -29,14 +30,14 @@ const LoginMethods = () => {
   const [showKey, setShowkey] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [firstModal, setFirstModal] = useState(false);
-  const [chain, setChain] = useRecoilState(chains);
+  const [chain, setChain] = useRecoilState(initialChains);
   const [wallet, setWallet] = useRecoilState(walletState);
 
   const appAddress = "bad424ac9d22202f07a742efaa36c865260d28f2";
 
   const auth = new AuthProvider(`${appAddress}`, {
     position: "right", // defaults to right
-    theme: "dark", // defaults to dark
+    theme: "light", // defaults to dark
     alwaysVisible: true, // defaults to true which is Full UI mode
     chainConfig: {
       chainId: chain,
@@ -426,6 +427,7 @@ const LoginMethods = () => {
       {/* Login Modal opener */}
       <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
         <div>
+          <h1 className="text-white">Chain to initialise wallet with</h1>
           <Dropdown label="Select Chain" autoCapitalize="true">
             <Dropdown.Header>List of supported chains</Dropdown.Header>
             {existingChains.map(([key, value]) => {
@@ -440,7 +442,7 @@ const LoginMethods = () => {
         <button onClick={connectWallet} className="btn">
           Arcana PP
         </button>
-        {loggedIn ? (
+        {loggedIn === true ? (
           <div className="flex space-x-2 btn w-36">
             <Image
               src="/arcanaLogo.png"
