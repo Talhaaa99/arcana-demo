@@ -1,7 +1,6 @@
 import { ConnectButton, openConnectModal } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { AuthProvider, CHAIN } from "@arcana/auth";
-import GetAuth from "../frontend/lib/GetAuth";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
@@ -13,11 +12,11 @@ import {
   FaLine,
 } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import { initialChains, walletState } from "../atom/contentAtom";
+import { ArcanaAuth, initialChains, walletState } from "../atom/contentAtom";
 import { Dropdown } from "flowbite-react";
-import Homepage from "./Homepage";
+import GetAuth from "../lib/getAuth";
 
-const LoginMethods = () => {
+const Login = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [account, setAccount] = useState([]);
@@ -32,18 +31,11 @@ const LoginMethods = () => {
   const [firstModal, setFirstModal] = useState(false);
   const [chain, setChain] = useRecoilState(initialChains);
   const [wallet, setWallet] = useRecoilState(walletState);
+  const [arcanaAuth, setArcanaAuth] = useRecoilState(ArcanaAuth);
 
   const appAddress = "bad424ac9d22202f07a742efaa36c865260d28f2";
 
-  const auth = new AuthProvider(`${appAddress}`, {
-    position: "right", // defaults to right
-    theme: "light", // defaults to dark
-    alwaysVisible: true, // defaults to true which is Full UI mode
-    chainConfig: {
-      chainId: chain,
-      rpcUrl: "https://polygon-rpc.com/",
-    },
-  });
+  const auth = GetAuth();
 
   async function initialize() {
     await auth.init();
@@ -455,7 +447,7 @@ const LoginMethods = () => {
             <h1 className="self-center">{truncateEthAddress(address)}</h1>
           </div>
         ) : (
-          <div className="flex space-x-2 btn w-36">
+          <div className="flex space-x-2 btn">
             <button
               className="flex align-middle justify-center space-x-2 shadow-xl btn"
               onClick={openFirstModal}
@@ -468,16 +460,13 @@ const LoginMethods = () => {
                 className="flex self-center"
                 quality="100"
               />
-              <h1 className="flex self-center">LOGIN</h1>
+              <p className="flex self-center">LOGIN</p>
             </button>
           </div>
         )}
-        <button className="btn" onClick={() => setWallet(!wallet)}>
-          Show/Hide wallet
-        </button>
       </div>
     </div>
   );
 };
 
-export default LoginMethods;
+export default Login;

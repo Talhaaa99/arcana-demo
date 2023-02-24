@@ -1,10 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { useState } from "react";
 import { HiChevronDown } from "react-icons/hi";
 import { useRecoilState } from "recoil";
 import { contentState } from "../atom/contentAtom";
-import LoginMethods from "./LoginMethods";
 
 const Sidebar = () => {
   const [content, setContent] = useRecoilState(contentState);
@@ -46,23 +46,25 @@ const Sidebar = () => {
             className="object-contain self-center border-[#8d8d8d]"
           />
         </div>
-        <div className="flex" onClick={() => setContent("homepage")}>
-          <Image
-            src="/House_01.png"
-            alt="/"
-            height={24}
-            width={24}
-            className="object-contain self-center mr-4"
-          />
-          <p className="text-md mr-2">Homepage</p>
-          <Image
-            src="/Chevron_Up.png"
-            alt="/"
-            height={24}
-            width={24}
-            className="object-contain self-center text-[#8D8D8D]"
-          />
-        </div>
+        <Link href="/Homepage" className="flex">
+          <div className="flex" onClick={() => setContent("homepage")}>
+            <Image
+              src="/House_01.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center mr-4"
+            />
+            <p className="text-md mr-2">Homepage</p>
+            <Image
+              src="/Chevron_Up.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center text-[#8D8D8D]"
+            />
+          </div>
+        </Link>
         <div className="flex" onClick={() => setContent("use-cases")}>
           <Image
             src="/user.png"
@@ -80,22 +82,38 @@ const Sidebar = () => {
             className="object-contain self-center text-[#8D8D8D]"
           />
         </div>
-        <div className="flex" onClick={() => setContent("NFT")}>
-          <Image
-            src="/dashboard.png"
-            alt="/"
-            height={24}
-            width={24}
-            className="object-contain self-center mr-4"
-          />
-          <p className="text-md mr-2">NFT</p>
-          <Image
-            src="/Chevron_Up.png"
-            alt="/"
-            height={24}
-            width={24}
-            className="object-contain self-center text-[#8D8D8D]"
-          />
+        <Link href="/Nftmarket" className="flex">
+          <div className="flex">
+            <Image
+              src="/dashboard.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center mr-4"
+            />
+            <p className="text-md mr-2">NFT</p>
+            <Image
+              src="/Chevron_Up.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center text-[#8D8D8D]"
+            />
+          </div>
+        </Link>
+        <div className="flex flex-col ml-6 gap-2">
+          <Link href="/Nftmarket">
+            <h1 className="mr-4 text-[#8D8D8D]">Home</h1>
+          </Link>
+          <Link href="/createnft">
+            <h1 className="mr-6 text-[#8D8D8D]">Sell NFT</h1>
+          </Link>
+          <Link href="/mynfts">
+            <h1 className="mr-6 text-[#8D8D8D]">My NFTs</h1>
+          </Link>
+          <Link href="/dashboard">
+            <h1 className="mr-6 text-[#8D8D8D]">Dashboard</h1>
+          </Link>
         </div>
         <div className="flex" onClick={() => setContent("transactions")}>
           <Image

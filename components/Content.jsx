@@ -1,9 +1,7 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { contentState } from "../atom/contentAtom";
-import Homepage from "./Homepage";
-import LoginMethods from "./LoginMethods";
-import NFTPage from "./NFTPage";
+import Login from "./Login";
 import Transactions from "./Transactions";
 import UseCases from "./UseCases";
 
@@ -12,11 +10,9 @@ const Content = () => {
 
   return (
     <div className="border-2 border-white flex flex-grow">
-      {content === "login" ? <LoginMethods /> : null}
-      {content === "homepage" ? <Homepage /> : null}
+      {content === "login" ? <Login /> : null}
       {content === "use-cases" ? <UseCases /> : null}
       {content === "transactions" ? <Transactions /> : null}
-      {content === "NFT" ? <NFTPage /> : null}
     </div>
   );
 };

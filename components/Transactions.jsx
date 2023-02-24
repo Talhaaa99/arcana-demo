@@ -2,7 +2,8 @@ import { AuthProvider } from "@arcana/auth";
 import { ethers, utils } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { initialChains } from "../atom/contentAtom";
+import { ArcanaAuth, initialChains } from "../atom/contentAtom";
+import GetAuth from "../lib/getAuth";
 
 const Transactions = () => {
   const [toAddress, setToAddress] = useState(
@@ -12,17 +13,7 @@ const Transactions = () => {
   const [message, setMessage] = useState("Hello Arcanauts");
   const chain = useRecoilValue(initialChains);
 
-  const appAddress = "bad424ac9d22202f07a742efaa36c865260d28f2";
-
-  const auth = new AuthProvider(`${appAddress}`, {
-    position: "right", // defaults to right
-    theme: "light", // defaults to dark
-    alwaysVisible: true, // defaults to true which is Full UI mode
-    chainConfig: {
-      chainId: chain,
-      rpcUrl: "https://polygon-rpc.com/",
-    },
-  });
+  const auth = GetAuth();
 
   async function signTransaction() {
     try {

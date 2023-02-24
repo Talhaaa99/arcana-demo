@@ -17,4 +17,7 @@
   p {
     @apply font-sora;
   }
+  .input-field {
+    @apply w-[278.88px] h-[35.4px] text-[#F7F7F7] rounded-lg font-sora text-xs;
+  }
 }

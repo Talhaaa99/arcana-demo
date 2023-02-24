@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full h-[80px] bottom-0 absolute flex z-20 flex-row-reverse align-middle text-[#F7F7F7] tracking-wider border-2 border-blue-500">
+    <footer className="w-full h-[80px] bottom-0 absolute flex z-20 flex-row-reverse align-middle text-[#F7F7F7] tracking-wider">
       <div className="flex flex-row space-x-2 justify-items-end pr-[52px]">
         <h1 className="self-center text-lg">Powered by</h1>
         <Image

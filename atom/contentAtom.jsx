@@ -19,13 +19,29 @@ export const walletState = atom({
 });
 export const chainId = atom({
   key: "chainId-state",
-  default: "0x1",
+  default: "0xa4b1",
 });
 export const chainName = atom({
   key: "chainName-state",
-  default: "Eth Mainnet Ankr",
+  default: "Arbitrum One",
 });
 export const rpcUrl = atom({
   key: "rpcUrl-state",
-  default: "https://rpc.ankr.com/eth",
+  default: "https://arb1.arbitrum.io/rpc ",
+});
+export const blockUrl = atom({
+  key: "blockUrl-state",
+  default: "https://arbiscan.io/",
+});
+export const name = atom({
+  key: "name-state",
+  default: "Arbitrum",
+});
+export const symbol = atom({
+  key: "symbol-state",
+  default: "ETH",
+});
+export const ArcanaAuth = atom({
+  key: "arcana-auth",
+  default: [],
 });
