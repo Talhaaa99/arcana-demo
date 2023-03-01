@@ -11,7 +11,7 @@ export const loginState = atom({
 });
 export const initialChains = atom({
   key: "chain-select",
-  default: CHAIN.POLYGON_MAINNET,
+  default: CHAIN.POLYGON_MUMBAI_TESTNET,
 });
 export const walletState = atom({
   key: "wallet-state",
@@ -44,4 +44,47 @@ export const symbol = atom({
 export const ArcanaAuth = atom({
   key: "arcana-auth",
   default: [],
+});
+export const loginContent = atom({
+  key: "login-content",
+  default: {
+    plugPlay: false,
+    emailLI: false,
+    googleLI: false,
+    twitterLI: false,
+    githubLI: false,
+    discordLI: false,
+    rainbowLI: false,
+  },
+});
+export const brandingContent = atom({
+  key: "branding-content",
+  default: {
+    addImage: false,
+    changeColors: false,
+    changeFont: false,
+  },
+});
+export const chainContent = atom({
+  key: "chain-content",
+  default: {
+    selectChain: false,
+    customChain: false,
+    switchChain: false,
+  },
+});
+export const tokenContent = atom({
+  key: "token-content",
+  default: {
+    addToken: false,
+    sendToken: false,
+  },
+});
+export const nftContent = atom({
+  key: "nft-content",
+  default: {
+    mintNFT: false,
+    sendNFT: false,
+    viewNFT: false,
+  },
 });

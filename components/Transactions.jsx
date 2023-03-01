@@ -63,39 +63,40 @@ const Transactions = () => {
   return (
     <div className="text-white">
       {/*  Send tokens/Approval */}
-      <div>
-        <h1>To</h1>
+      <div className="card flex space-y-2 flex-col">
+        <h1 className="text-blue-600 font-bold">Send Token</h1>
+        <p>To</p>
         <input
           placeholder="To Address"
           onChange={(e) => setToAddress(e.target.value)}
           value={toAddress}
-          className="text-slate-700"
+          className="text-slate-700 input-field px-2 py-1"
         />
-        <h1>Amount</h1>
+        <p>Amount</p>
         <input
           placeholder="Amount"
           onChange={(e) => setAmount(e.target.value)}
           value={amount}
-          className="text-slate-700"
+          className="text-slate-700 input-field px-2 py-1"
         />
+        <button className="btn" onClick={() => sendTransaction()}>
+          Send token
+        </button>
       </div>
-      <button className="btn" onClick={() => sendTransaction()}>
-        Send token
-      </button>
       <br></br>
       {/* Request signature */}
-      <div>
-        <h1>Message</h1>
+      <div className="card flex flex-col space-y-2">
+        <p className="text-blue-600 font-bold">Message</p>
         <input
           placeholder="Hello Arcanauts"
           onChange={(e) => setMessage(e.target.value)}
           value={message}
-          className="text-slate-700"
+          className="text-slate-700 input-field px-2 py-1"
         />
+        <button className="btn" onClick={() => signTransaction()}>
+          Request signature
+        </button>
       </div>
-      <button className="btn" onClick={() => signTransaction()}>
-        Request signature
-      </button>
     </div>
   );
 };

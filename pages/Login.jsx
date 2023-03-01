@@ -1,20 +1,13 @@
-import { ConnectButton, openConnectModal } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { AuthProvider, CHAIN } from "@arcana/auth";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
-import {
-  FaGoogle,
-  FaGithub,
-  FaTwitch,
-  FaDiscord,
-  FaLine,
-} from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { ArcanaAuth, initialChains, walletState } from "../atom/contentAtom";
 import { Dropdown } from "flowbite-react";
-import GetAuth from "../lib/getAuth";
 
 const Login = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -30,25 +23,10 @@ const Login = () => {
   const [emailInput, setEmailInput] = useState("");
   const [firstModal, setFirstModal] = useState(false);
   const [chain, setChain] = useRecoilState(initialChains);
-  const [wallet, setWallet] = useRecoilState(walletState);
-  const [arcanaAuth, setArcanaAuth] = useRecoilState(ArcanaAuth);
 
-  const appAddress = "bad424ac9d22202f07a742efaa36c865260d28f2";
+  const auth = getAuth();
 
-  const auth = GetAuth();
-
-  async function initialize() {
-    await auth.init();
-    setIsInitialized(true);
-  }
-
-  useEffect(() => {
-    initialize();
-    setHooks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+  /*   useEffect(() => {
     const load = async () => {
       if (isInitialized) {
         const loggedIn = await auth.isLoggedIn();
@@ -62,7 +40,7 @@ const Login = () => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized]);
+  }, [isInitialized]); */
 
   const connectWallet = async () => {
     if (isInitialized) {
@@ -104,7 +82,6 @@ const Login = () => {
 
   const socialLogin = async (socialAuth) => {
     if (isInitialized) {
-      await auth.init();
       const social = await auth.loginWithSocial(socialAuth);
       await auth.isLoggedIn();
       setLoggedIn(true);
@@ -113,7 +90,6 @@ const Login = () => {
       return social;
     }
   };
-  console.log("accountinfo", address);
 
   const emailLogin = async (emailAuth) => {
     if (isInitialized) {
@@ -132,15 +108,12 @@ const Login = () => {
       return loggedIn;
     }
   };
-  console.log(loggedIn);
 
   const handleEmailLogin = async (e) => {
     setEmailInput(e.target.value);
   };
 
-  const existingChains = Object.entries(CHAIN);
-
-  function setHooks() {
+  /*   function setHooks() {
     const provider = auth.provider;
     provider.on("connect", async (params) => {
       console.log({ type: "connect", params: params });
@@ -154,8 +127,7 @@ const Login = () => {
     provider.on("chainChanged", async (params) => {
       console.log({ type: "chainChanged", params: params });
     });
-  }
-  console.log(address);
+  } */
 
   const openFirstModal = async () => {
     setFirstModal(true);
@@ -172,14 +144,13 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full relative h-full">
+    <div className="w-auto absolute z-20 ml-[240px] h-full">
       <Modal
         open={firstModal}
         onClose={closeFirstModal}
-        className="border-2 border-red-400 w-[332px] h-[572px] bg-[#F9F9F9] m-auto rounded-xl"
-        hideBackdrop={true}
+        className="border-2 border-red-400 w-[332px] h-[572px]  m-auto rounded-xl"
       >
-        <div className="p-6 flex flex-col h-full justify-center rounded-2xl">
+        <div className="p-6 flex flex-col h-full justify-center bg-[#F9F9F9] rounded-2xl">
           <div className="flex flex-col space-y-2 mb-3">
             <Image
               src="/demo-logo.png"

@@ -1,22 +1,29 @@
+const { ethers } = require("hardhat");
 const hre = require("hardhat");
+const fs = require("fs");
 
 async function main() {
-  const NFTMarket = await hre.ethers.getContractFactory("NFTMarketplace");
-  const nftMarket = await NFTMarket.deploy();
-  await nftMarket.deployed();
+  //get the signer that we will use to deploy
+  //Get the NFTMarketplace smart contract object and deploy it
+  const Marketplace = await hre.ethers.getContractFactory("NFTMarketplace");
+  const marketplace = await Marketplace.deploy();
 
-  console.log("NFT Market address: ", nftMarket.address);
+  await marketplace.deployed();
 
-  const NFT = await hre.ethers.getContractFactory("NFT");
-  const nft = await NFT.deploy(nftMarket.address);
-  await nft.deployed();
+  //Pull the address and ABI out while you deploy, since that will be key in interacting with the smart contract later
+  const data = {
+    address: marketplace.address,
+    abi: JSON.parse(marketplace.interface.format("json")),
+  };
 
-  console.log("NFT token address: ", nft.address);
+  //This writes the ABI and address to the marketplace.json
+  //This data is then used by frontend files to connect with the smart contract
+  fs.writeFileSync("./src/Marketplace.json", JSON.stringify(data));
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
