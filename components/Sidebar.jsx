@@ -90,7 +90,7 @@ const Sidebar = () => {
             onClick={() => setContent("branding")}
           >
             <Image
-              src="/Branding.png"
+              src="/branding-logo.png"
               alt="/"
               height={24}
               width={24}
