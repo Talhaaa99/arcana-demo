@@ -74,11 +74,8 @@ export default function Profile() {
   if (!dataFetched) getNFTData(tokenId);
 
   return (
-    <div
-      className="absolute ml-[550px] mt-[80px]"
-      style={{ "min-height": "100vh" }}
-    >
-      <div className="card p-8">
+    <div className="absolute ml-[240px] max-w-4xl p-4">
+      <div className="card p-2 ">
         <div className="flex text-center flex-col mt-11 md:text-2xl text-white">
           <div className="mb-5">
             <p className="font-bold text-purple-500">Wallet Address</p>
@@ -97,7 +94,7 @@ export default function Profile() {
         </div>
         <div className="flex flex-col text-center items-center mt-11 text-white">
           <p className="font-bold text-purple-500">Your NFTs</p>
-          <div className="flex justify-center space-x-2 flex-wrap max-w-screen-xl">
+          <div className="flex justify-center space-x-2 flex-wrap max-w-screen">
             {data.map((value, index) => {
               return <NFTTile data={value} key={index}></NFTTile>;
             })}
