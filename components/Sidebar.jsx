@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useState } from "react";
-import { HiChevronDown } from "react-icons/hi";
+
 import { useRecoilState } from "recoil";
 import { contentState } from "../atom/contentAtom";
 

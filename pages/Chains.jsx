@@ -5,7 +5,6 @@ import {
   blockUrl,
   chainId,
   chainName,
-  initialChains,
   rpcUrl,
   name,
   symbol,

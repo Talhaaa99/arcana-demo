@@ -2,8 +2,6 @@ import NFTTile from "../../components/NFTTile";
 import Marketplace from "../../src/Marketplace.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import getAuth from "../../lib/getAuth";
-import Navbar from "../../components/Navbar";
 import { useAuth } from "@arcana/auth-react";
 
 export default function NFTMarketplace() {

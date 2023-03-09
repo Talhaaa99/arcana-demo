@@ -1,6 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
-import { AuthProvider, CHAIN } from "@arcana/auth";
+
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
@@ -10,14 +10,10 @@ import { initialChains } from "../atom/contentAtom";
 import { useAuth } from "@arcana/auth-react";
 
 const Login = () => {
-  const [isInitialized, setIsInitialized] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [account, setAccount] = useState([]);
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [picture, setPicture] = useState("");
-  const [userInfo, setUserInfo] = useState(false);
   const [pKey, setPKey] = useState("");
   const [showKey, setShowkey] = useState(false);
   const [emailInput, setEmailInput] = useState("");
@@ -28,6 +24,7 @@ const Login = () => {
 
   useEffect(() => {
     isLoggedIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstModal]);
 
   /*   useEffect(() => {

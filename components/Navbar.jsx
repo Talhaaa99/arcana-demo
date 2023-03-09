@@ -1,13 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import getAuth from "../lib/getAuth";
 import Link from "next/link";
 import { useAuth } from "@arcana/auth-react";
 
