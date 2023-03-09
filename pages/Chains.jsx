@@ -1,3 +1,4 @@
+import { useAuth } from "@arcana/auth-react";
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -9,7 +10,6 @@ import {
   name,
   symbol,
 } from "../atom/contentAtom";
-import getAuth from "../lib/getAuth";
 
 const Chains = () => {
   const [addChainId, setAddChainId] = useRecoilState(chainId);
@@ -25,12 +25,10 @@ const Chains = () => {
   const [nftSymbol, setNftSymbol] = useState("Net2Dev NFT Collection");
   const [nftImage, setNftImage] = useState("");
 
-  const chain = useRecoilValue(initialChains);
-  const auth = getAuth();
+  const auth = useAuth();
 
   const addChain = async () => {
     try {
-      await auth.init();
       const provider = auth.provider;
       await provider.request({
         method: "wallet_addEthereumChain",
@@ -55,7 +53,6 @@ const Chains = () => {
 
   const switchChain = async () => {
     try {
-      await auth.init();
       const provider = auth.provider;
       await provider.request({
         method: "wallet_switchEthereumChain",
@@ -68,7 +65,6 @@ const Chains = () => {
 
   const addNFT = async () => {
     try {
-      await auth.init();
       const provider = auth.provider;
       await provider.request({
         method: "wallet_watchAsset",
@@ -90,9 +86,25 @@ const Chains = () => {
   return (
     <div className="text-white absolute ml-[240px] flex flex-row justify-center p-6 space-x-4">
       {/* Add chain */}
-
+      <div className="card flex-col flex max-w-xs h-auto space-y-2">
+        <h1 className="font-bold text-blue-600 text-lg">
+          Adding Custom Chains
+        </h1>
+        <p className="flex">
+          Don&apos;t see your chain in the dropdown list?
+          <br></br>
+          We&apos;ve got you covered. <br></br>
+          Add a custom chain by entering your Chain ID, Name and RPC Url.
+          We&apos;ve used an Arbitrum configuration already, but feel free to
+          try out your custom chains
+        </p>
+        <h1 className="font-bold text-blue-600 text-lg">Switching Chains</h1>
+        <p>
+          By default, the switch chain button will change your current chain to
+          the recently added custom chain
+        </p>
+      </div>
       <div className="space-y-3 self-center card">
-        <h1 className="font-bold text-blue-600">Add Chain</h1>
         <div>
           <p>Chain ID</p>
           <input

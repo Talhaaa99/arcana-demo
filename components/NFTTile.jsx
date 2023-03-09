@@ -10,13 +10,15 @@ function NFTTile({ data }) {
   console.log("token is ", data?.tokenId);
   return (
     <Link href={newTo}>
-      <div className="border-2 ml-12 mt-5 mb-12 flex flex-col items-center rounded-lg w-48 md:w-72 shadow-2xl">
+      <div className="flex flex-col items-center justify-center rounded-lg w-48 md:w-48 shadow-2xl">
         <Image
           height={100}
-          width={72}
+          width={100}
           src={data.image}
           alt=""
-          className="w-72 h-80 rounded-lg object-cover"
+          className="w-30 h-52 rounded-lg mb-5"
+          style={{ objectFit: "contain" }}
+          quality={100}
         />
         <div className="text-white w-full p-2 bg-gradient-to-t from-[#454545] to-transparent rounded-lg pt-5 -mt-20">
           <strong className="text-xl">{data.name}</strong>

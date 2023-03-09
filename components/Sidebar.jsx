@@ -10,7 +10,7 @@ const Sidebar = () => {
   const [content, setContent] = useRecoilState(contentState);
 
   return (
-    <div className="bg-[#26272A] w-[240px] h-screen overflow-y-scroll p-8 text-[#8D8D8D] z-30">
+    <div className="bg-[#26272A] w-[240px] h-screen p-8 text-[#8D8D8D] z-30">
       <Link href="/" classname="flex">
         <div className="flex flex-row space-x-4 mb-[60px]">
           <Image

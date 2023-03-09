@@ -3,19 +3,24 @@ import MarketplaceJSON from "../../../src/Marketplace.json";
 import axios from "axios";
 import { useState } from "react";
 import Image from "next/image";
-import getAuth from "../../../lib/getAuth";
+import { useAuth } from "@arcana/auth-react";
+import { useRouter } from "next/router";
 
 export default function NFTPage(props) {
-  const auth = getAuth();
+  const auth = useAuth();
   const [data, updateData] = useState({});
   const [dataFetched, updateDataFetched] = useState(false);
   const [message, updateMessage] = useState("");
   const [currAddress, updateCurrAddress] = useState("0x");
 
-  async function getNFTData(tokenId) {
+  const router = useRouter();
+  const { tokenId } = router.query;
+  console.log("param token id: ", tokenId);
+
+  async function getNFTData() {
     const ethers = require("ethers");
+
     //After adding your Hardhat network to your metamask, this code will get providers and signers
-    await auth.init();
     const provider = new ethers.providers.Web3Provider(auth.provider);
     const signer = provider.getSigner();
     const addr = await signer.getAddress();
@@ -28,9 +33,9 @@ export default function NFTPage(props) {
     //create an NFT Token
     const tokenURI = await contract.tokenURI(tokenId);
     const listedToken = await contract.getListedTokenForId(tokenId);
-    let meta = await axios.get(tokenURI);
-    meta = meta.data;
-    console.log(listedToken);
+    let meta = (await axios.get(tokenURI)).data;
+
+    console.log("listed token + metadata", listedToken, meta);
 
     let item = {
       price: meta.price,
@@ -48,11 +53,10 @@ export default function NFTPage(props) {
     updateCurrAddress(addr);
   }
 
-  async function buyNFT(tokenId) {
+  async function buyNFT() {
     try {
       const ethers = require("ethers");
       //After adding your Hardhat network to your metamask, this code will get providers and signers
-      await auth.init();
       const provider = new ethers.providers.Web3Provider(auth.provider);
       const signer = provider.getSigner();
 
@@ -77,19 +81,18 @@ export default function NFTPage(props) {
     }
   }
 
-  const params = useParams();
-  const tokenId = params.tokenId;
   if (!dataFetched) getNFTData(tokenId);
 
   return (
     <div className="absolute ml-[250px]" style={{ "min-height": "100vh" }}>
       <div className="flex ml-20 mt-20">
         <Image
-          height={100}
-          width={100}
+          height={70}
+          width={50}
           src={data.image}
           alt=""
           className="w-2/5"
+          style={{ objectFit: "contain" }}
         />
         <div className="text-xl ml-20 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
           <div>Name: {data.name}</div>

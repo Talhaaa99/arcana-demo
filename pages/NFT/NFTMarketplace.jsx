@@ -4,14 +4,12 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import getAuth from "../../lib/getAuth";
 import Navbar from "../../components/Navbar";
+import { useAuth } from "@arcana/auth-react";
 
 export default function NFTMarketplace() {
-  const auth = getAuth();
-  const initialize = async () => {
-    await auth.connect();
-  };
+  const auth = useAuth();
 
-  const sampleData = [
+  /* const sampleData = [
     {
       name: "NFT#1",
       description: "Alchemy's First NFT",
@@ -42,32 +40,34 @@ export default function NFTMarketplace() {
       currentlySelling: "True",
       address: "0xe81Bf5A757C4f7F82a2F23b1e59bE45c33c5b13",
     },
-  ];
-  const [data, updateData] = useState(sampleData);
+  ]; */
+  const [data, updateData] = useState([]);
   const [dataFetched, updateFetched] = useState(false);
 
   async function getAllNFTs() {
     const ethers = require("ethers");
     //After adding your Hardhat network to your metamask, this code will get providers and signers
-    await initialize();
+    auth.isLoggedIn;
     const arcanaProvider = auth.provider;
     const provider = new ethers.providers.Web3Provider(arcanaProvider);
     const signer = provider.getSigner();
     //Pull the deployed contract instance
-    let marketplaceContract = new ethers.Contract(
+    const marketplaceContract = new ethers.Contract(
       Marketplace.address,
       Marketplace.abi,
       signer
     );
     //create an NFT Token
-    let transaction = await marketplaceContract.getAllNFTs();
+    const transaction = await marketplaceContract.getAllNFTs();
+    console.log("Transaction data:", transaction);
 
     //Fetch all the details of every NFT from the contract and display
     const items = await Promise.all(
       transaction.map(async (i) => {
         const tokenURI = await marketplaceContract.tokenURI(i.tokenId);
-        let meta = await axios.get(tokenURI);
-        meta = meta.data;
+        console.log("Token URI is ", tokenURI);
+        const meta = (await axios.get(tokenURI)).data;
+        console.log("meta data", meta);
 
         let price = ethers.utils.formatUnits(i.price.toString(), "ether");
         let item = {
@@ -84,9 +84,7 @@ export default function NFTMarketplace() {
     );
 
     updateData(items);
-    if (item.tokenId.length !== 0) {
-      updateFetched(true);
-    }
+    updateFetched(true);
   }
 
   console.log("Data from marketplace", data);
@@ -95,15 +93,16 @@ export default function NFTMarketplace() {
   }
 
   return (
-    <div className="absolute z-20 ml-[240px] h-auto w-auto p-8">
-      <Navbar />
-      <div className="flex flex-col place-items-center mt-20">
-        <div className="flex mt-5 justify-between flex-wrap max-w-screen-xl text-center">
+    <div className="absolute z-20 ml-[240px] h-auto p-4 max-w-5xl flex-wrap">
+      <div className="flex flex-col place-items-center space-x-4 mt-20">
+        <div className="flex mt-5 justify-between space-x-4 flex-wrap max-w-screen-xl text-center">
           {data.map((value, index) => {
             return <NFTTile data={value} key={index}></NFTTile>;
           })}
         </div>
-        <button onClick={getAllNFTs}>Fetch NFTs</button>
+        {/*   <button onClick={getAllNFTs} className="btn">
+          Fetch NFTs
+        </button> */}
       </div>
     </div>
   );

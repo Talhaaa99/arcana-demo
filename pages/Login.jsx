@@ -6,8 +6,8 @@ import Image from "next/image";
 import { Modal } from "@mui/material";
 import { FaDiscord } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import { ArcanaAuth, initialChains, walletState } from "../atom/contentAtom";
-import { Dropdown } from "flowbite-react";
+import { initialChains } from "../atom/contentAtom";
+import { useAuth } from "@arcana/auth-react";
 
 const Login = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -24,7 +24,11 @@ const Login = () => {
   const [firstModal, setFirstModal] = useState(false);
   const [chain, setChain] = useRecoilState(initialChains);
 
-  const auth = getAuth();
+  const auth = useAuth();
+
+  useEffect(() => {
+    isLoggedIn();
+  }, [firstModal]);
 
   /*   useEffect(() => {
     const load = async () => {
@@ -43,70 +47,53 @@ const Login = () => {
   }, [isInitialized]); */
 
   const connectWallet = async () => {
-    if (isInitialized) {
-      const provider = await auth.connect();
-      console.log({ provider });
-      await auth.isLoggedIn();
-      setLoggedIn(true);
-      const acc = await getAccountInfo();
-      setAccount(acc);
-    }
+    const provider = auth.provider;
+    console.log(provider);
+    await auth.isLoggedIn;
+    setLoggedIn(true);
+    const acc = await getAccountInfo();
+    setAccount(acc);
   };
 
   const logOut = async () => {
-    if (isInitialized) {
-      await auth.logout();
-      setLoggedIn(false);
-    }
+    auth.logout();
+    setLoggedIn(false);
   };
 
   const getAccountInfo = async () => {
-    if (isInitialized) {
-      const { email, id, name, address, picture } = await auth.getUser();
-      setUserInfo(!userInfo);
-      setEmail(email);
-      setName(name);
-      setAddress(address);
-      setPicture(picture);
-    }
+    const address = auth?.user?.address;
+    /* setUserInfo(!userInfo);
+    setEmail(auth.user.email);
+    setName(auth.user.name);
+    setPicture(auth.user.picture); */
+    console.log("Address is: ", address);
+    setAddress(address);
   };
   const getPublicKey = async () => {
-    if (isInitialized) {
-      const publicKey = await auth.getPublicKey(email);
-      setPKey(publicKey);
-      setShowkey(!showKey);
-    }
+    const publicKey = await auth.getPublicKey(email);
+    setPKey(publicKey);
+    setShowkey(!showKey);
   };
 
   // demo app functions
 
   const socialLogin = async (socialAuth) => {
-    if (isInitialized) {
-      const social = await auth.loginWithSocial(socialAuth);
-      await auth.isLoggedIn();
-      setLoggedIn(true);
-      const acc = await getAccountInfo();
-      setAccount(acc);
-      return social;
-    }
+    const social = await auth.loginWithSocial(socialAuth);
+    auth.isLoggedIn;
+    setLoggedIn(true);
+    getAccountInfo();
+    return social;
   };
 
   const emailLogin = async (emailAuth) => {
-    if (isInitialized) {
-      await auth.init();
-      return await auth.loginWithLink(emailAuth);
-    }
+    return await auth.loginWithLink(emailAuth);
   };
   const getAccounts = async () => {
-    if (isInitialized) {
-      return await auth.provider.request({ method: "eth_accounts" });
-    }
+    return await auth.provider.request({ method: "eth_accounts" });
   };
   const isLoggedIn = async () => {
-    if (isInitialized) {
-      const loggedIn = await auth.isLoggedIn();
-      return loggedIn;
-    }
+    const loggedIn = auth.isLoggedIn;
+    return loggedIn;
   };
 
   const handleEmailLogin = async (e) => {
@@ -135,6 +122,7 @@ const Login = () => {
 
   const closeFirstModal = async () => {
     setFirstModal(false);
+    getAccountInfo();
   };
   const openSecondModal = async () => {
     setSecondModal(true);
@@ -148,7 +136,7 @@ const Login = () => {
       <Modal
         open={firstModal}
         onClose={closeFirstModal}
-        className="border-2 border-red-400 w-[332px] h-[572px]  m-auto rounded-xl"
+        className="w-[332px] h-[572px]  m-auto rounded-xl"
       >
         <div className="p-6 flex flex-col h-full justify-center bg-[#F9F9F9] rounded-2xl">
           <div className="flex flex-col space-y-2 mb-3">
@@ -389,7 +377,7 @@ const Login = () => {
 
       {/* Login Modal opener */}
       <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
-        <div>
+        {/* <div>
           <h1 className="text-white">Chain to initialise wallet with</h1>
           <Dropdown label="Select Chain" autoCapitalize="true">
             <Dropdown.Header>List of supported chains</Dropdown.Header>
@@ -401,12 +389,12 @@ const Login = () => {
               );
             })}
           </Dropdown>
-        </div>
+        </div> */}
         <button onClick={connectWallet} className="btn">
           Arcana PP
         </button>
         {loggedIn === true ? (
-          <div className="flex space-x-2 btn w-36">
+          <div className="flex space-x-2 btn w-auto px-2 justify-center">
             <Image
               src="/arcanaLogo.png"
               alt="/"
@@ -415,7 +403,7 @@ const Login = () => {
               className="flex object-contain"
               quality="100"
             />
-            <h1 className="self-center">{truncateEthAddress(address)}</h1>
+            <h1 className="self-center">{address}</h1>
           </div>
         ) : (
           <div className="flex space-x-2 btn">

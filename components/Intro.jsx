@@ -18,6 +18,7 @@ const Intro = () => {
       open={openIntro}
       onClose={handleCloseIntro}
       className="m-auto w-[926px] h-[595px] text-[#F7F7F7] z-60 bg-[#26272A]"
+      disableAutoFocus={true}
     >
       <div className="flex flex-col mx-auto py-[72px] px-16 h-full">
         <h1 className="mx-auto text-[40px] tracking-wider mb-[30px]">

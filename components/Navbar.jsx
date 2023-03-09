@@ -9,13 +9,14 @@ import { useEffect, useState } from "react";
 
 import getAuth from "../lib/getAuth";
 import Link from "next/link";
+import { useAuth } from "@arcana/auth-react";
 
 function Navbar() {
   const [connected, toggleConnect] = useState(false);
 
   const [currAddress, updateAddress] = useState("0x");
 
-  const auth = getAuth();
+  const auth = useAuth();
 
   async function getAddress() {
     const ethers = require("ethers");
@@ -30,46 +31,27 @@ function Navbar() {
     updateAddress(addr);
   }
 
-  function updateButton() {
+  /*   function updateButton() {
     const ethereumButton = document.querySelector(".enableEthereumButton");
     ethereumButton.textContent = "Connected";
     ethereumButton.classList.remove("hover:bg-blue-70");
     ethereumButton.classList.remove("bg-blue-500");
     ethereumButton.classList.add("hover:bg-green-70");
     ethereumButton.classList.add("bg-green-500");
-  }
+  } */
 
   async function connectWebsite() {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId !== "0x5") {
-      //alert('Incorrect network! Switch your metamask network to Rinkeby');
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x5" }],
-      });
-    }
-    await window.ethereum
-      .request({ method: "eth_requestAccounts" })
-      .then(() => {
-        updateButton();
-        console.log("here");
-        getAddress();
-      });
-  }
-
-  useEffect(() => {
-    let val = window.ethereum.isConnected();
-    if (val) {
+    await auth.connect();
+    await auth.provider.request({ method: "eth_requestAccounts" }).then(() => {
+      updateButton();
       console.log("here");
       getAddress();
-      toggleConnect(val);
-      updateButton();
-    }
-  });
+    });
+  }
 
   return (
-    <div className="absolute z-30 w-[75%] h-[20px]">
-      <nav className="relative flex- flex-col w-[800px]">
+    <div className="">
+      <nav className="relative flex- flex-col w-auto">
         <ul className="flex items-end justify-between bg-transparent text-white pr-5">
           <li className="flex items-end ml-5 pb-2">
             <Link href="/NFT/NFTMarketplace">

@@ -15,6 +15,7 @@ async function main() {
     address: marketplace.address,
     abi: JSON.parse(marketplace.interface.format("json")),
   };
+  console.log("Address is:", marketplace.address);
 
   //This writes the ABI and address to the marketplace.json
   //This data is then used by frontend files to connect with the smart contract

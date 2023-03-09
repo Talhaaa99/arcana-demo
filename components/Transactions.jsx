@@ -1,9 +1,6 @@
-import { AuthProvider } from "@arcana/auth";
+import { useAuth } from "@arcana/auth-react";
 import { ethers, utils } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { ArcanaAuth, initialChains } from "../atom/contentAtom";
-import GetAuth from "../lib/getAuth";
 
 const Transactions = () => {
   const [toAddress, setToAddress] = useState(
@@ -11,15 +8,13 @@ const Transactions = () => {
   );
   const [amount, setAmount] = useState(1);
   const [message, setMessage] = useState("Hello Arcanauts");
-  const chain = useRecoilValue(initialChains);
 
-  const auth = GetAuth();
+  const auth = useAuth();
 
   async function signTransaction() {
     try {
-      await auth.init();
       const provider = auth.provider;
-      const { address } = await auth.getUser();
+      const address = auth.user.address;
       console.log(address);
       const { sig } = await provider.request({
         method: "eth_signTransaction",
@@ -40,9 +35,8 @@ const Transactions = () => {
 
   async function sendTransaction() {
     try {
-      await auth.init();
       const provider = auth.provider;
-      const { address } = await auth.getUser();
+      const address = auth.user.address;
       const hash = await provider.request({
         method: "eth_sendTransaction",
         params: [
@@ -79,7 +73,7 @@ const Transactions = () => {
           value={amount}
           className="text-slate-700 input-field px-2 py-1"
         />
-        <button className="btn" onClick={() => sendTransaction()}>
+        <button className="btn" onClick={sendTransaction}>
           Send token
         </button>
       </div>
