@@ -18,7 +18,7 @@ const Footer = () => {
           alt="/"
           height={20}
           width={70}
-          className="object-contain self-center rotate-90"
+          className="object-contain self-center rotate-180"
         />
       </div>
       <div className="flex flex-row space-x-5 justify-items-end mr-10">
