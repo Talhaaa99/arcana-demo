@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import MarketplaceJSON from "../../../src/Marketplace.json";
 import axios from "axios";
 import { useState } from "react";
