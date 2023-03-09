@@ -24,7 +24,7 @@ const Sidebar = () => {
             alt="/"
             height={34}
             width={117}
-            className="object-contain self-center"
+            className="object-contain self-center rotate-90"
           />
         </div>
       </Link>
