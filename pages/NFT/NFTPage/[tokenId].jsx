@@ -83,29 +83,30 @@ export default function NFTPage(props) {
   if (!dataFetched) getNFTData(tokenId);
 
   return (
-    <div className="absolute ml-[250px]" style={{ "min-height": "100vh" }}>
-      <div className="flex ml-20 mt-20">
+    <div className="absolute ml-[240px] p-4">
+      <div className="flex card space-x-4">
         <Image
-          height={70}
-          width={50}
+          height={400}
+          width={400}
+          quality={100}
           src={data.image}
           alt=""
           className="w-2/5"
           style={{ objectFit: "contain" }}
         />
-        <div className="text-xl ml-20 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
-          <div>Name: {data.name}</div>
-          <div>Description: {data.description}</div>
-          <div>
+        <div className="text-xl space-y-6 z-20 text-slate-200 flex-col max-w-md">
+          <p>Name: {data.name}</p>
+          <p>Description: {data.description}</p>
+          <p>
             Price: <span className="">{data.price + " ETH"}</span>
-          </div>
-          <div>
+          </p>
+          <p>
             Owner: <span className="text-sm">{data.owner}</span>
-          </div>
-          <div>
+          </p>
+          <p>
             Seller: <span className="text-sm">{data.seller}</span>
-          </div>
-          <div>
+          </p>
+          <p>
             {currAddress == data.owner || currAddress == data.seller ? (
               <button
                 className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
@@ -114,13 +115,11 @@ export default function NFTPage(props) {
                 Buy this NFT
               </button>
             ) : (
-              <div className="text-emerald-700">
-                You are the owner of this NFT
-              </div>
+              <p className="text-emerald-700">You are the owner of this NFT</p>
             )}
 
-            <div className="text-green text-center mt-3">{message}</div>
-          </div>
+            <p className="text-green text-center mt-3">{message}</p>
+          </p>
         </div>
       </div>
     </div>
