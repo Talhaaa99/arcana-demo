@@ -28,10 +28,10 @@ export default function App({ Component, pageProps }) {
     connectors,
     provider,
   });
-  const clientId = "4cc8e4d01f02581d9ac0627c8b5aae62e631f5d3";
+  const clientId = "xar_dev_4cc8e4d01f02581d9ac0627c8b5aae62e631f5d3";
   const arcanaProvider = new AuthProvider(`${clientId}`, {
     position: "right",
-    theme: "light",
+    theme: "dark",
     alwaysVisible: true,
     chainConfig: {
       chainId: CHAIN.POLYGON_MUMBAI_TESTNET,
@@ -39,14 +39,13 @@ export default function App({ Component, pageProps }) {
     },
     network: "dev",
   });
-  arcanaProvider.init();
 
   return (
     <RecoilRoot>
       <ProvideAuth provider={arcanaProvider}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider chains={chains}>
-            <div className="bg-[#1E1E1E] w-full h-full overflow-x-hidden overflow-y-hidden flex flex-col">
+            <div className="bg-[#1E1E1E] w-full h-screen overflow-x-hidden overflow-y-hidden flex flex-col">
               <Sidebar />
               <Component {...pageProps} />
               <Footer />

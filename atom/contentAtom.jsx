@@ -57,34 +57,12 @@ export const loginContent = atom({
     rainbowLI: false,
   },
 });
-export const brandingContent = atom({
-  key: "branding-content",
-  default: {
-    addImage: false,
-    changeColors: false,
-    changeFont: false,
-  },
-});
+
 export const chainContent = atom({
   key: "chain-content",
   default: {
     selectChain: false,
     customChain: false,
     switchChain: false,
-  },
-});
-export const tokenContent = atom({
-  key: "token-content",
-  default: {
-    addToken: false,
-    sendToken: false,
-  },
-});
-export const nftContent = atom({
-  key: "nft-content",
-  default: {
-    mintNFT: false,
-    sendNFT: false,
-    viewNFT: false,
   },
 });

@@ -1,29 +1,45 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
-
+import Marketplace from "../src/Marketplace.json";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
 import { FaDiscord } from "react-icons/fa";
-import { useRecoilState } from "recoil";
-import { initialChains } from "../atom/contentAtom";
 import { useAuth } from "@arcana/auth-react";
+import axios from "axios";
+
+import Link from "next/link";
 
 const Login = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [account, setAccount] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [pKey, setPKey] = useState("");
   const [showKey, setShowkey] = useState(false);
   const [emailInput, setEmailInput] = useState("");
   const [firstModal, setFirstModal] = useState(false);
-  const [chain, setChain] = useRecoilState(initialChains);
+  const [secondModal, setSecondModal] = useState(false);
+  const [NFTImage, setNFTImage] = useState("/NFTDefault.png");
+  const [pfp, setPfp] = useState("/pfp-default.png");
+  const [NFTTitle, setNFTTitle] = useState("Random Artwork #2323");
+  const [owner, setOwner] = useState("0x00000...000");
+  const [price, setPrice] = useState("0.01");
 
-  const auth = useAuth();
+  const {
+    provider,
+    loading,
+    isLoggedIn,
+    theme,
+    user,
+    logout,
+    loginWithSocial,
+    loginWithLink,
+    connect,
+    logo,
+  } = useAuth();
 
   useEffect(() => {
-    isLoggedIn();
+    if (loading === false) {
+      isLoggedIn;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstModal]);
 
@@ -44,21 +60,12 @@ const Login = () => {
   }, [isInitialized]); */
 
   const connectWallet = async () => {
-    const provider = auth.provider;
-    console.log(provider);
-    await auth.isLoggedIn;
-    setLoggedIn(true);
-    const acc = await getAccountInfo();
-    setAccount(acc);
-  };
-
-  const logOut = async () => {
-    auth.logout();
-    setLoggedIn(false);
+    isLoggedIn;
+    const connected = await connect();
   };
 
   const getAccountInfo = async () => {
-    const address = auth?.user?.address;
+    const address = user?.address;
     /* setUserInfo(!userInfo);
     setEmail(auth.user.email);
     setName(auth.user.name);
@@ -75,43 +82,19 @@ const Login = () => {
   // demo app functions
 
   const socialLogin = async (socialAuth) => {
-    const social = await auth.loginWithSocial(socialAuth);
-    auth.isLoggedIn;
-    setLoggedIn(true);
+    const social = await loginWithSocial(socialAuth);
+    isLoggedIn;
     getAccountInfo();
     return social;
   };
 
   const emailLogin = async (emailAuth) => {
-    return await auth.loginWithLink(emailAuth);
-  };
-  const getAccounts = async () => {
-    return await auth.provider.request({ method: "eth_accounts" });
-  };
-  const isLoggedIn = async () => {
-    const loggedIn = auth.isLoggedIn;
-    return loggedIn;
+    return await loginWithLink(emailAuth);
   };
 
   const handleEmailLogin = async (e) => {
     setEmailInput(e.target.value);
   };
-
-  /*   function setHooks() {
-    const provider = auth.provider;
-    provider.on("connect", async (params) => {
-      console.log({ type: "connect", params: params });
-      const isLoggedIn = await auth.isLoggedIn();
-      console.log({ isLoggedIn });
-    });
-    provider.on("accountsChanged", (params) => {
-      //Handle
-      console.log({ type: "accountsChanged", params: params });
-    });
-    provider.on("chainChanged", async (params) => {
-      console.log({ type: "chainChanged", params: params });
-    });
-  } */
 
   const openFirstModal = async () => {
     setFirstModal(true);
@@ -128,11 +111,167 @@ const Login = () => {
     setSecondModal(false);
   };
 
+  const [data, updateData] = useState([]);
+  const [dataFetched, updateFetched] = useState(false);
+
+  async function getAllNFTs() {
+    const ethers = require("ethers");
+    //After adding your Hardhat network to your metamask, this code will get providers and signers
+    if (!isLoggedIn) {
+      alert("Please connect wallet first");
+    }
+    const arcanaProvider = new ethers.providers.Web3Provider(provider);
+    const signer = await arcanaProvider.getSigner();
+    //Pull the deployed contract instance
+    const marketplaceContract = new ethers.Contract(
+      Marketplace.address,
+      Marketplace.abi,
+      signer
+    );
+    //create an NFT Token
+    const transaction = await marketplaceContract.getAllNFTs();
+    console.log("Transaction data:", transaction);
+
+    //Fetch all the details of every NFT from the contract and display
+    const items = await Promise.all(
+      transaction.map(async (i) => {
+        const tokenURI = await marketplaceContract.tokenURI(i.tokenId);
+        console.log("Token URI is ", tokenURI);
+        const meta = (await axios.get(tokenURI)).data;
+        console.log("meta data", meta);
+
+        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          image: meta.image,
+          name: meta.name,
+          description: meta.description,
+        };
+        return item;
+      })
+    );
+
+    updateData(items);
+    updateFetched(true);
+  }
+
+  console.log("Data from marketplace", data);
+  if (isLoggedIn && loading === false && !dataFetched) {
+    getAllNFTs();
+  }
+
   return (
-    <div className="w-auto absolute z-20 ml-[240px] h-full">
+    <div className="w-auto absolute z-20 ml-[240px] h-full p-10 flex">
+      <div className="w-[1109px] h-5/6 m-auto relative rounded-2xl shadow-xl bg-white">
+        <nav className="flex justify-between p-10">
+          <div className="flex justify-evenly align-center space-x-6">
+            <p className="font-bold text-lg self-center text-[#16161A]">
+              NFT Picker
+            </p>
+            <input
+              className="input-field border-none self-center bg-[#F6F6F6]"
+              type="search"
+              placeholder="Search"
+            ></input>
+            <Link
+              href="/NFT/NFTMarketplace"
+              className="self-center text-[#777777]"
+            >
+              <p>Explore</p>
+            </Link>
+            <Link href="/NFT/SellNFT" className="self-center text-[#777777]">
+              <p>Create</p>
+            </Link>
+          </div>
+          {isLoggedIn && !loading ? (
+            <button
+              className="px-5 py-3 bg-[#16161A] font-sora rounded-2xl text-white"
+              onClick={logout}
+            >
+              {user?.address.slice(0, 7) +
+                "..." +
+                user?.address.slice(35, address.length - 1)}
+            </button>
+          ) : (
+            <button
+              className="px-5 py-3 bg-[#16161A] font-sora rounded-2xl text-white"
+              onClick={openFirstModal}
+            >
+              Connect Wallet
+            </button>
+          )}
+        </nav>
+        <div className="flex flex-row justify-between p-10">
+          <Image height={470} width={445} alt="NFT" src={NFTImage} />
+
+          <div className="flex flex-col space-y-6">
+            <h1 className="font-bold text-2xl">{NFTTitle}</h1>
+            <div className="flex flex-row gap-2">
+              <Image
+                height={37}
+                width={37}
+                className="rounded-full"
+                alt="Pfp"
+                src={pfp}
+              />
+              <div>
+                <p className="text-[#A9A5A5] text-xs ">Current Owner</p>
+                <p className="font-semibold">{owner}</p>
+              </div>
+            </div>
+            <div className="flex flex-col rounded-xl border border-[#D9D9D9] h-[263px] w-[384px] py-6 px-4 space-y-4">
+              <div className="flex flex-row space-x-2">
+                <div className="bg-[#F6F6F6] p-5 space-y-[9px] w-[172px] rounded-2xl">
+                  <p className="font-semibold text-xs text-[#A9A5A5]">Price</p>
+                  <p>{price} ETH</p>
+                  <p className="font-semibold text-xs text-[#A9A5A5]">2$</p>
+                </div>
+                <div className="bg-[#F6F6F6] p-5 space-y-[9px] w-[172px] rounded-2xl">
+                  <p className="font-semibold text-xs text-[#A9A5A5]">
+                    Highest floor bid
+                  </p>
+                  <p>0.02 ETH</p>
+                  <p className="font-semibold text-xs text-[#A9A5A5]">
+                    By: 0x00000000
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center space-y-4">
+                <button className="btn w-full shadow-md">
+                  Buy now for 000$
+                </button>
+                <button className="btn w-full bg-white text-black shadow-md border-1 border-[#D9D9D9]">
+                  Place a bid
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal stuff */}
+
       <Modal
         open={firstModal}
         onClose={closeFirstModal}
+        disableAutoFocus={true}
+        className="flex align-middle h-[200px] flex-col mx-auto mt-80 justify-center w-[300px] bg-gray-600 rounded-xl focus:border-none"
+      >
+        <div className="justify-center flex flex-col space-y-2">
+          <button className="btn self-center" onClick={connectWallet}>
+            Plug and Play
+          </button>
+          <button className="btn self-center" onClick={openSecondModal}>
+            Login with email
+          </button>
+        </div>
+      </Modal>
+      <Modal
+        open={secondModal}
+        onClose={closeSecondModal}
         className="w-[332px] h-[572px]  m-auto rounded-xl"
       >
         <div className="p-6 flex flex-col h-full justify-center bg-[#F9F9F9] rounded-2xl">
@@ -373,20 +512,7 @@ const Login = () => {
       {/* Initial chain selector */}
 
       {/* Login Modal opener */}
-      <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
-        {/* <div>
-          <h1 className="text-white">Chain to initialise wallet with</h1>
-          <Dropdown label="Select Chain" autoCapitalize="true">
-            <Dropdown.Header>List of supported chains</Dropdown.Header>
-            {existingChains.map(([key, value]) => {
-              return (
-                <Dropdown.Item key={key} onClick={() => setChain(value)}>
-                  {key}
-                </Dropdown.Item>
-              );
-            })}
-          </Dropdown>
-        </div> */}
+      {/*  <div className="mx-auto w-full h-screen flex flex-col justify-center items-start ml-10 space-y-4">
         <button onClick={connectWallet} className="btn">
           Arcana PP
         </button>
@@ -420,7 +546,7 @@ const Login = () => {
             </button>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
