@@ -22,6 +22,8 @@ const Login = () => {
   const [NFTTitle, setNFTTitle] = useState("Random Artwork #2323");
   const [owner, setOwner] = useState("0x00000...000");
   const [price, setPrice] = useState("0.01");
+  const [data, updateData] = useState([]);
+  const [dataFetched, updateFetched] = useState(false);
 
   const {
     provider,
@@ -111,9 +113,6 @@ const Login = () => {
     setSecondModal(false);
   };
 
-  const [data, updateData] = useState([]);
-  const [dataFetched, updateFetched] = useState(false);
-
   async function getAllNFTs() {
     const ethers = require("ethers");
     //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -161,6 +160,7 @@ const Login = () => {
   console.log("Data from marketplace", data);
   if (isLoggedIn && loading === false && !dataFetched) {
     getAllNFTs();
+    console.log(data);
   }
 
   return (
@@ -205,10 +205,18 @@ const Login = () => {
           )}
         </nav>
         <div className="flex flex-row justify-between p-10">
-          <Image height={470} width={445} alt="NFT" src={NFTImage} />
+          <Image
+            height={445}
+            width={445}
+            alt="NFT"
+            className="max-h-[445px] max-w-[445px] object-contain p-2 "
+            src={dataFetched ? data[data.length - 1].image : NFTImage}
+          />
 
           <div className="flex flex-col space-y-6">
-            <h1 className="font-bold text-2xl">{NFTTitle}</h1>
+            <h1 className="font-bold text-2xl">
+              {dataFetched ? data[data.length - 1].name : NFTTitle}
+            </h1>
             <div className="flex flex-row gap-2">
               <Image
                 height={37}
@@ -219,14 +227,16 @@ const Login = () => {
               />
               <div>
                 <p className="text-[#A9A5A5] text-xs ">Current Owner</p>
-                <p className="font-semibold">{owner}</p>
+                <p className="font-semibold">
+                  {dataFetched ? data[data.length - 1].owner : owner}
+                </p>
               </div>
             </div>
             <div className="flex flex-col rounded-xl border border-[#D9D9D9] h-[263px] w-[384px] py-6 px-4 space-y-4">
               <div className="flex flex-row space-x-2">
                 <div className="bg-[#F6F6F6] p-5 space-y-[9px] w-[172px] rounded-2xl">
                   <p className="font-semibold text-xs text-[#A9A5A5]">Price</p>
-                  <p>{price} ETH</p>
+                  <p>{dataFetched ? data[data.length - 1].price : price} ETH</p>
                   <p className="font-semibold text-xs text-[#A9A5A5]">2$</p>
                 </div>
                 <div className="bg-[#F6F6F6] p-5 space-y-[9px] w-[172px] rounded-2xl">
@@ -241,7 +251,8 @@ const Login = () => {
               </div>
               <div className="flex flex-col items-center space-y-4">
                 <button className="btn w-full shadow-md">
-                  Buy now for 000$
+                  Buy now for{" "}
+                  {dataFetched ? data[data.length - 1].price : price} ETH
                 </button>
                 <button className="btn w-full bg-white text-black shadow-md border-1 border-[#D9D9D9]">
                   Place a bid
