@@ -84,10 +84,10 @@ const Sidebar = () => {
             </div>
           </div>
         ) : null}
-        <Link href="/Branding" className="flex">
+        <Link href="/Faucet" className="flex">
           <div
             className={content === "branding" ? "flex active-sidebar" : "flex"}
-            onClick={() => setContent("branding")}
+            onClick={() => setContent("faucet")}
           >
             <Image
               src="/branding-logo.png"
@@ -96,7 +96,7 @@ const Sidebar = () => {
               width={24}
               className="object-contain self-center mr-4"
             />
-            <p className="text-md text-[#F7F7F7] self-center mr-2">Branding</p>
+            <p className="text-md text-[#F7F7F7] self-center mr-2">Faucet</p>
             <Image
               src="/Chevron_Up.png"
               alt="/"
@@ -106,7 +106,7 @@ const Sidebar = () => {
             />
           </div>
         </Link>
-        {content === "branding" ? (
+        {content === "faucet" ? (
           <div className="space-y-2 pl-4">
             <div className="flex justify-start space-x-2">
               <input type="checkbox" className="self-center" />
@@ -251,13 +251,6 @@ const Sidebar = () => {
               className="object-contain self-center mr-4"
             />
             <p className="text-md self-center text-[#F7F7F7] mr-2">Functions</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center text-[#8D8D8D]"
-            />
           </div>
         </Link>
       </div>

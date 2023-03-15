@@ -1,6 +1,6 @@
 import { useAuth } from "@arcana/auth-react";
 import { ethers, utils } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Transactions = () => {
   const [toAddress, setToAddress] = useState(

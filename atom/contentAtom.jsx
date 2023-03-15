@@ -3,7 +3,7 @@ import { CHAIN } from "@arcana/auth";
 
 export const contentState = atom({
   key: "content-state",
-  default: "login",
+  default: "token",
 });
 export const loginState = atom({
   key: "login-state",

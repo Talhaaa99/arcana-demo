@@ -1,6 +1,6 @@
 import { useAuth } from "@arcana/auth-react";
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   blockUrl,
   chainId,
@@ -83,27 +83,10 @@ const Chains = () => {
   };
 
   return (
-    <div className="text-white absolute ml-[240px] flex flex-row justify-center p-6 space-x-4">
+    <div className="text-white flex flex-row p-6 space-x-4">
       {/* Add chain */}
-      <div className="card flex-col flex max-w-xs h-auto space-y-2">
-        <h1 className="font-bold text-blue-600 text-lg">
-          Adding Custom Chains
-        </h1>
-        <p className="flex">
-          Don&apos;t see your chain in the dropdown list?
-          <br></br>
-          We&apos;ve got you covered. <br></br>
-          Add a custom chain by entering your Chain ID, Name and RPC Url.
-          We&apos;ve used an Arbitrum configuration already, but feel free to
-          try out your custom chains
-        </p>
-        <h1 className="font-bold text-blue-600 text-lg">Switching Chains</h1>
-        <p>
-          By default, the switch chain button will change your current chain to
-          the recently added custom chain
-        </p>
-      </div>
-      <div className="space-y-3 self-center card">
+
+      <div className="space-y-3 card">
         <div>
           <p>Chain ID</p>
           <input

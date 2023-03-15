@@ -7,7 +7,7 @@ import { Modal } from "@mui/material";
 import { FaDiscord } from "react-icons/fa";
 import { useAuth } from "@arcana/auth-react";
 import axios from "axios";
-
+import { getETHPrice } from "../lib/getEthPrice";
 import Link from "next/link";
 
 const Login = () => {
@@ -193,7 +193,7 @@ const Login = () => {
             >
               {user?.address.slice(0, 7) +
                 "..." +
-                user?.address.slice(35, address.length - 1)}
+                user?.address.slice(35, address?.length - 1)}
             </button>
           ) : (
             <button
@@ -223,7 +223,7 @@ const Login = () => {
                 width={37}
                 className="rounded-full"
                 alt="Pfp"
-                src={pfp}
+                src={dataFetched ? logo : pfp}
               />
               <div>
                 <p className="text-[#A9A5A5] text-xs ">Current Owner</p>
