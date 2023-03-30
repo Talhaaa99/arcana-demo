@@ -1,5 +1,6 @@
 import { useAuth } from "@arcana/auth-react";
 import { ethers } from "ethers";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import faucetContract from "../lib/faucet";
 
@@ -162,6 +163,29 @@ const Faucet = () => {
           </div>
         </div>
       </section>
+      <div className="flex flex-col space-y-3">
+        <Link
+          href="https://faucet.polygon.technology/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <button className="btn">Polygon Faucet</button>
+        </Link>
+        <Link
+          href="https://mumbaifaucet.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <button className="btn">Alchemy Faucet</button>
+        </Link>
+        <Link
+          href="https://sepoliafaucet.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <button className="btn">Sepolia Faucet</button>
+        </Link>
+      </div>
     </div>
   );
 };

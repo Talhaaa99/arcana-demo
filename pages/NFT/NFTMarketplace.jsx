@@ -91,9 +91,9 @@ export default function NFTMarketplace() {
   }
 
   return (
-    <div className="absolute z-20 ml-[240px] h-auto p-4 max-w-5xl flex-wrap">
-      <div className="flex flex-col place-items-center space-x-4 mt-20">
-        <div className="flex mt-5 justify-between space-x-4 flex-wrap max-w-screen-xl text-center">
+    <div className="absolute z-20 ml-[240px] mt-20 h-auto p-4 max-w-5xl flex">
+      <div className="min-w-[1109px] p-10 min-h-5/6 m-auto relative rounded-2xl shadow-xl bg-white">
+        <div className="grid mt-5 space-y-3 justify-between grid-cols-3 max-w-screen-xl text-center">
           {data.map((value, index) => {
             return <NFTTile data={value} key={index}></NFTTile>;
           })}

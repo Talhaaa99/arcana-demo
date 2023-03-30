@@ -97,8 +97,11 @@ export default function SellNFT() {
 
   console.log("Working", process.env);
   return (
-    <div className="absolute ml-[600px] justify-center w-auto">
-      <div className="flex flex-col place-items-center mt-10" id="nftForm">
+    <div className="absolute ml-[260px] justify-center w-auto">
+      <div
+        className="min-w-[1109px] p-10 h-5/6 m-auto mt-20 relative rounded-2xl shadow-xl bg-white"
+        id="nftForm"
+      >
         <form className="card px-8 pt-4 pb-8 mb-4">
           <h3 className="text-center font-bold text-purple-500 mb-8">
             Upload your NFT to the marketplace

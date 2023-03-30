@@ -75,7 +75,7 @@ export default function Profile() {
 
   return (
     <div className="absolute ml-[240px] max-w-4xl p-4">
-      <div className="card p-2 ">
+      <div className="min-w-[1109px] p-10 h-5/6 m-auto mt-20 relative rounded-2xl shadow-xl bg-white">
         <div className="flex text-center flex-col mt-11 md:text-2xl text-white">
           <div className="mb-5">
             <p className="font-bold text-purple-500">Wallet Address</p>

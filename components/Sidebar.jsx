@@ -30,171 +30,7 @@ const Sidebar = () => {
       </Link>
       {/* Login */}
       <div className="space-y-8">
-        <Link href="/Login" classname="flex">
-          <div
-            className={content === "login" ? "flex active-sidebar" : "flex"}
-            onClick={() => setContent("login")}
-          >
-            <Image
-              src="/profile.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center mr-4"
-            />
-            <p className="text-md text-[#F7F7F7] self-center mr-2">Login</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center border-[#8d8d8d]"
-            />
-          </div>
-        </Link>
-        {content === "login" ? (
-          <div className="space-y-2 pl-4">
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Plug and Play</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Passwordless</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Google</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Twitter</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Github</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Discord</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Rainbow Kit</p>
-            </div>
-          </div>
-        ) : null}
-        <Link href="/Faucet" className="flex">
-          <div
-            className={content === "branding" ? "flex active-sidebar" : "flex"}
-            onClick={() => setContent("faucet")}
-          >
-            <Image
-              src="/branding-logo.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center mr-4"
-            />
-            <p className="text-md text-[#F7F7F7] self-center mr-2">Faucet</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center text-[#8D8D8D]"
-            />
-          </div>
-        </Link>
-        {content === "faucet" ? (
-          <div className="space-y-2 pl-4">
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Add Image</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Change Color</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Change Font</p>
-            </div>
-          </div>
-        ) : null}
-        <Link href="/Chains" className="flex">
-          <div
-            className={content === "chains" ? "flex active-sidebar" : "flex"}
-            onClick={() => setContent("chains")}
-          >
-            <Image
-              src="/Chain.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center mr-4"
-            />
-            <p className="text-md self-center text-[#F7F7F7] mr-2">Chains</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center text-[#8D8D8D]"
-            />
-          </div>
-        </Link>
-        {content === "chains" ? (
-          <div className="space-y-2 pl-4">
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Select Chain</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Custom Chain</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Switch Chain</p>
-            </div>
-          </div>
-        ) : null}
-        <Link href="/Tokens" className="flex">
-          <div
-            className={content === "tokens" ? "flex active-sidebar" : "flex"}
-            onClick={() => setContent("tokens")}
-          >
-            <Image
-              src="/tokens.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center mr-4"
-            />
-            <p className="text-md self-center text-[#F7F7F7] mr-2">Tokens</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center text-[#8D8D8D]"
-            />
-          </div>
-        </Link>
-        {content === "tokens" ? (
-          <div className="space-y-2 pl-4">
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Add Token</p>
-            </div>
-            <div className="flex justify-start space-x-2">
-              <input type="checkbox" className="self-center" />
-              <p className="self-center">Send Token</p>
-            </div>
-          </div>
-        ) : null}
-        <Link href="/NFT/NFTMarketplace" className="flex">
+        <Link href="/NFT/Login" className="flex">
           <div
             className={content === "nft" ? "flex active-sidebar" : "flex"}
             onClick={() => setContent("nft")}
@@ -207,32 +43,22 @@ const Sidebar = () => {
               className="object-contain self-center mr-4"
             />
             <p className="text-md self-center text-[#F7F7F7] mr-2">NFT</p>
-            <Image
-              src="/Chevron_Up.png"
-              alt="/"
-              height={24}
-              width={24}
-              className="object-contain self-center text-[#8D8D8D]"
-            />
           </div>
         </Link>
         {content === "nft" ? (
           <div className="space-y-2 pl-4">
             <Link href="/NFT/NFTMarketplace">
               <div className="flex justify-start space-x-2">
-                <input type="checkbox" className="self-center" />
                 <p className="self-center">Marketplace</p>
               </div>
             </Link>
             <Link href="/NFT/SellNFT">
               <div className="flex justify-start space-x-2">
-                <input type="checkbox" className="self-center" />
                 <p className="self-center">Sell NFT</p>
               </div>
             </Link>
             <Link href="/NFT/Profile">
               <div className="flex justify-start space-x-2">
-                <input type="checkbox" className="self-center" />
                 <p className="self-center">NFT Profile</p>
               </div>
             </Link>
@@ -251,6 +77,36 @@ const Sidebar = () => {
               className="object-contain self-center mr-4"
             />
             <p className="text-md self-center text-[#F7F7F7] mr-2">Functions</p>
+          </div>
+        </Link>
+        <Link href="/Faucet" className="flex">
+          <div
+            className={content === "faucet" ? "flex active-sidebar" : "flex"}
+            onClick={() => setContent("faucet")}
+          >
+            <Image
+              src="/branding-logo.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center mr-4"
+            />
+            <p className="text-md text-[#F7F7F7] self-center mr-2">Faucet</p>
+          </div>
+        </Link>
+        <Link href="/Staking" className="flex">
+          <div
+            className={content === "staking" ? "flex active-sidebar" : "flex"}
+            onClick={() => setContent("staking")}
+          >
+            <Image
+              src="/branding-logo.png"
+              alt="/"
+              height={24}
+              width={24}
+              className="object-contain self-center mr-4"
+            />
+            <p className="text-md text-[#F7F7F7] self-center mr-2">Staking</p>
           </div>
         </Link>
       </div>

@@ -1,13 +1,13 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
-import Marketplace from "../src/Marketplace.json";
+import Marketplace from "../.././src/Marketplace.json";
 import truncateEthAddress from "truncate-eth-address";
 import Image from "next/image";
 import { Modal } from "@mui/material";
 import { FaDiscord } from "react-icons/fa";
 import { useAuth } from "@arcana/auth-react";
 import axios from "axios";
-import { getETHPrice } from "../lib/getEthPrice";
+import { getETHPrice } from "../../lib/getEthPrice";
 import Link from "next/link";
 
 const Login = () => {
@@ -250,10 +250,12 @@ const Login = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center space-y-4">
-                <button className="btn w-full shadow-md">
-                  Buy now for{" "}
-                  {dataFetched ? data[data.length - 1].price : price} ETH
-                </button>
+                <Link href="/NFT/NFTMarketplace" className="w-full">
+                  <button className="btn w-full shadow-md">
+                    Head to the marketplace to buy now for{" "}
+                    {dataFetched ? data[data.length - 1].price : price} ETH
+                  </button>
+                </Link>
                 <button className="btn w-full bg-white text-black shadow-md border-1 border-[#D9D9D9]">
                   Place a bid
                 </button>
@@ -276,7 +278,7 @@ const Login = () => {
             Plug and Play
           </button>
           <button className="btn self-center" onClick={openSecondModal}>
-            Login with email
+            Use Custom login with Arcana Auth
           </button>
         </div>
       </Modal>
