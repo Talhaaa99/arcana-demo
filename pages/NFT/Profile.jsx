@@ -74,27 +74,27 @@ export default function Profile() {
   if (!dataFetched) getNFTData(tokenId);
 
   return (
-    <div className="absolute ml-[240px] max-w-4xl p-4">
-      <div className="min-w-[1109px] p-10 h-5/6 m-auto mt-20 relative rounded-2xl shadow-xl bg-white">
-        <div className="flex text-center flex-col mt-11 md:text-2xl text-white">
+    <div className="absolute ml-[240px] min-w-4xl max-h-screen p-4">
+      <div className="max-w-[1109px] sticky p-10 h-auto m-auto mt-20 rounded-2xl shadow-xl bg-white overflow-x-auto">
+        <div className="flex text-center flex-shrink flex-col mt-11 md:text-2xl">
           <div className="mb-5">
             <p className="font-bold text-purple-500">Wallet Address</p>
-            <p>{truncateEthAddress(address)}</p>
+            <p className="text-black">{truncateEthAddress(address)}</p>
           </div>
         </div>
         <div className="flex flex-row text-center justify-center mt-10 md:text-xl text-white">
           <div>
             <p className="font-bold text-purple-500">No. of NFTs</p>
-            <p>{data.length}</p>
+            <p className="text-black">{data.length}</p>
           </div>
           <div className="ml-20">
             <p className="font-bold text-purple-500">Total Value</p>
-            <p>{totalPrice} ETH</p>
+            <p className="text-black">{totalPrice} ETH</p>
           </div>
         </div>
         <div className="flex flex-col text-center items-center mt-11 text-white">
           <p className="font-bold text-purple-500">Your NFTs</p>
-          <div className="flex justify-center space-x-2 flex-wrap max-w-screen">
+          <div className="flex justify-center space-x-2 flex-shrink max-w-screen">
             {data.map((value, index) => {
               return <NFTTile data={value} key={index}></NFTTile>;
             })}
