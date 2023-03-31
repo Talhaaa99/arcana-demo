@@ -197,20 +197,20 @@ const Staking = () => {
     const amountStaked = Number(stakedTokens[tokenSymbol]);
 
     return (
-      <div className="flex flex-row text-slate-300 space-x-2">
+      <div className="grid grid-cols-6 gap-x-16">
         <div className="">{displayLogo(token?.symbol)}</div>
         <div className="">{token?.symbol}</div>
         <div className="">{(Number(token?.usdPrice) / 100).toFixed(0)}</div>
         <div className="">{amountStaked}</div>
-        <div className="col-md-2">{(Number(token?.apy) / 100).toFixed(0)}%</div>
-        <div className="col-md-2">
+        <div className="">{(Number(token?.apy) / 100).toFixed(0)}%</div>
+        <div className="">
           {isConnected() && (
-            <div
+            <button
               className="stake"
               onClick={() => openStakingModal(tokenSymbol, "12%")}
             >
               Stake
-            </div>
+            </button>
           )}
         </div>
       </div>
@@ -284,8 +284,8 @@ const Staking = () => {
   return (
     <div className="absolute ml-[300px] mt-[100px] text-slate-200 card w-[700px] h-700px justify-center">
       <div className="p-10">
-        <div className="subContainer">
-          <span>
+        <div className="flex justify-center align-center space-x-2 mb-4">
+          <span className="self-center">
             <Image
               alt="/"
               height={20}
@@ -294,49 +294,46 @@ const Staking = () => {
               src="/weth.png"
             />
           </span>
-          <span className="text-lg self-center">Ethereum Market</span>
+          <span className="text-xl self-center">Ethereum Market</span>
         </div>
 
-        <div>
-          <div className="flex flex-row space-x-2">
-            <div className="col-md-2">Asset</div>
-            <div className="col-md-2">Symbol</div>
-            <div className="col-md-2">Price (USD)</div>
-            <div className="col-md-2">Total Supplied</div>
-            <div className="col-md-2">APY</div>
-            <div className="col-md-2"></div>
-          </div>
+        <div className="grid grid-cols-6 w-[660px]">
+          <p className="">Asset</p>
+          <p className="">Symbol</p>
+          <p className="">Price (USD)</p>
+          <p className="">Total Supplied</p>
+          <p className="">APY</p>
+          <p className=""></p>
         </div>
-        <div className="flex flex-col">
+        <div>
           {tokenSymbols.length > 0 &&
             Object.keys(tokens).length > 0 &&
-            tokenSymbols.map((a, idx) => <div key={idx}>{tokenRow(a)}</div>)}
+            tokenSymbols.map((a, idx) => <tr key={idx}>{tokenRow(a)}</tr>)}
         </div>
       </div>
 
-      <div className="assetContainer">
+      <div>
         {isConnected() ? (
           <>
-            <div className="subContainer">
-              <span className="marketHeader stakedTokensHeader">
-                Staked Assets
-              </span>
+            <div className="justify-center text-center mb-4">
+              <h1 className="text-xl ml-25 self-center">Staked Assets</h1>
             </div>
+
             <div>
               <div>
-                <div className="flex flex-row ">
-                  <div className="col-md-1">Asset</div>
-                  <div className="col-md-2">Tokens Staked</div>
-                  <div className="col-md-2">Market Value (USD)</div>
-                  <div className="col-md-2">Accrued Interest (USD)</div>
-                  <div className="col-md-2">Accrued Interest (ETH)</div>
-                  <div className="col-md-2"></div>
+                <div className="grid grid-cols-6 ">
+                  <p className="col-md-1">Asset</p>
+                  <p className="col-md-2">Tokens Staked</p>
+                  <p className="col-md-2">Market Value (USD)</p>
+                  <p className="col-md-2">Accrued Interest (USD)</p>
+                  <p className="col-md-2">Accrued Interest (ETH)</p>
+                  <p className="col-md-2"></p>
                 </div>
               </div>
               <br />
               {assets.length > 0 &&
                 assets.map((a, idx) => (
-                  <div key={idx} className="flex flex-row space-x-5">
+                  <div key={idx} className="grid grid-cols-6">
                     <div className="col-md-1">{displayLogo(a.tokenSymbol)}</div>
                     <div className="col-md-2">{a.tokensStaked}</div>
                     <div className="col-md-2">{a.usdValue}</div>
