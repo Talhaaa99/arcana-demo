@@ -319,7 +319,7 @@ const Staking = () => {
               <h1 className="text-xl ml-25 self-center">Staked Assets</h1>
             </div>
 
-            <div>
+            <div className="pl-10">
               <div>
                 <div className="grid grid-cols-6 ">
                   <p className="col-md-1">Asset</p>
