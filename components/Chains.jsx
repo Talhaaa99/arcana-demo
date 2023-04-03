@@ -1,3 +1,4 @@
+import { CHAIN } from "@arcana/auth";
 import { useAuth } from "@arcana/auth-react";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -55,7 +56,7 @@ const Chains = () => {
       const provider = auth.provider;
       await provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: addChainId }],
+        params: [{ chainId: CHAIN.POLYGON_MUMBAI_TESTNET }],
       });
     } catch (error) {
       console.error(error);
