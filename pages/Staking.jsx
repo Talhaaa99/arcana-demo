@@ -312,9 +312,9 @@ const Staking = () => {
         </div>
       </div>
 
-      <div>
+      <div className="grid">
         {isConnected() ? (
-          <>
+          <div>
             <div className="justify-center text-center mb-4">
               <h1 className="text-xl ml-25 self-center">Staked Assets</h1>
             </div>
@@ -354,21 +354,21 @@ const Staking = () => {
                   </div>
                 ))}
             </div>
-          </>
+          </div>
         ) : (
           <div onClick={() => connectAndLoad()} className="connectButton">
             Connect Wallet
           </div>
         )}
+        {showStakeModal && (
+          <StakeModal
+            onClose={() => setShowStakeModal(false)}
+            stakeTokenSymbol={stakeTokenSymbol}
+            setStakeTokenQuantity={setStakeTokenQuantity}
+            stakeTokens={stakeTokens}
+          />
+        )}
       </div>
-      {showStakeModal && (
-        <StakeModal
-          onClose={() => setShowStakeModal(false)}
-          stakeTokenSymbol={stakeTokenSymbol}
-          setStakeTokenQuantity={setStakeTokenQuantity}
-          stakeTokens={stakeTokens}
-        />
-      )}
     </div>
   );
 };

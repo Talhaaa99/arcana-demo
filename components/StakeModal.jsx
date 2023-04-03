@@ -6,15 +6,15 @@ const StakeModal = (props) => {
 
   return (
     <>
-      <div className="modal-class" onClick={onClose}>
+      <div className="absolute ml-[740px]" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-body">
-            <button className="stake">Stake</button>
+          <div className="space-y-2">
+            <p className="text-xl">Stake</p>
 
-            <div className="row">
+            <div className="flex space-x-2">
               <div className="col-md-9 fieldContainer">
                 <input
-                  className="inputField"
+                  className="input-field w-20 text-slate-700"
                   placeholder="0.0"
                   onChange={(e) => props.setStakeTokenQuantity(e.target.value)}
                 />
@@ -25,16 +25,16 @@ const StakeModal = (props) => {
               </div>
             </div>
 
-            <div className="row">
-              <div
+            <div>
+              <button
                 onClick={() => {
                   stakeTokens();
                   onClose();
                 }}
-                className="pinkButton hoverButton"
+                className="stake px-3 py-2"
               >
                 Stake
-              </div>
+              </button>
             </div>
           </div>
         </div>

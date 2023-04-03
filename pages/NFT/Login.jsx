@@ -113,6 +113,14 @@ const Login = () => {
     setSecondModal(false);
   };
 
+  const handleLogOut = async () => {
+    logout();
+    setPfp("/pfp-default.png");
+    setNFTTitle("Random Artwork #2323");
+    setOwner("0x00000...000");
+    setPrice("0.01");
+  };
+
   async function getAllNFTs() {
     const ethers = require("ethers");
     //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -189,7 +197,7 @@ const Login = () => {
           {isLoggedIn && !loading ? (
             <button
               className="px-5 py-3 bg-[#16161A] font-sora rounded-2xl text-white"
-              onClick={logout}
+              onClick={handleLogOut}
             >
               {user?.address.slice(0, 7) +
                 "..." +

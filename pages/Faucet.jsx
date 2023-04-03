@@ -92,7 +92,7 @@ const Faucet = () => {
   };
   return (
     <div className="absolute ml-[240px] text-white p-10">
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <div className="container">
           <div className="navbar-brand">
             <h1 className="navbar-item is-size-4">Ocean Token (OCT)</h1>
@@ -162,7 +162,7 @@ const Faucet = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <div className="flex flex-col space-y-3">
         <Link
           href="https://faucet.polygon.technology/"
